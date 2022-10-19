@@ -301,7 +301,7 @@ func (csdk *CSDK) GetSystemConfigByKey(hc *ChanData, key string) {
 	C.bcos_rpc_get_system_config_by_key(csdk.Sdk, csdk.GroupID, nil, cKey, C.bcos_sdk_c_struct_response_cb(C.on_recv_resp_callback), unsafe.Pointer(hc))
 }
 
-//amop
+// amop
 func (csdk *CSDK) SubscribeTopic(chanData *ChanData, topic string) {
 	cTopic := C.CString(topic)
 	defer C.free(unsafe.Pointer(cTopic))
@@ -342,7 +342,7 @@ func (csdk *CSDK) BroadcastAmopMsg(chanData *ChanData, topic string, data string
 	C.bcos_amop_broadcast(csdk.Sdk, cTopic, unsafe.Pointer(cData), cLen)
 }
 
-//event
+// event
 func (csdk *CSDK) SubscribeEvent(chanData *ChanData, params string) string {
 	cParams := C.CString(params)
 	defer C.free(unsafe.Pointer(cParams))
@@ -377,7 +377,7 @@ func (csdk *CSDK) SendTransaction(chanData *ChanData, to string, data string) {
 		return
 	}
 
-	key_pair := C.bcos_sdk_create_keypair_by_prikey(csdk.SMCrypto, unsafe.Pointer(csdk.PrivateKey), csdk.PrivateKeyLen)
+	key_pair := C.bcos_sdk_create_keypair_by_private_key(csdk.SMCrypto, unsafe.Pointer(csdk.PrivateKey), csdk.PrivateKeyLen)
 
 	C.bcos_sdk_create_signed_transaction(key_pair, csdk.GroupID, csdk.ChainID, cTo, cData, cNull, block_limit, 0, &tx_hash, &signed_tx)
 
